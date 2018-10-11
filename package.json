@@ -1,0 +1,23 @@
+{
+  "name": "seeder",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf .cache dist",
+    "dev-webapp": "parcel ./src/apps/webapp/index.html",
+    "build-webapp": "yarn clean; parcel build ./src/apps/webapp/index.html",
+    "test": "jest"
+  },
+  "alias": {
+    "~/": "./src/"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
+    "parcel-bundler": "^1.10.3",
+    "rimraf": "^2.6.2"
+  }
+}
