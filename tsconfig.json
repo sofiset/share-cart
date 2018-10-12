@@ -8,7 +8,9 @@
     "module": "commonjs",
     "noImplicitAny": true,
     "strictNullChecks": false,
-    "lib": ["es2015", "es2017.sharedmemory", "dom"]
+    "jsx": "react",
+    "lib": ["es2015", "es2017.sharedmemory", "dom"],
+    "experimentalDecorators": true
   },
   "parcelTsPluginOptions": {
     "transpileOnly": false
