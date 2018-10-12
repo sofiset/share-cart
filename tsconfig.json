@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "baseUrl": ".",
+    "paths": {
+      "~*": ["./src/*"]
+    },
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "strictNullChecks": false,
+    "lib": ["es2015", "es2017.sharedmemory", "dom"]
+  },
+  "parcelTsPluginOptions": {
+    "transpileOnly": false
+  }
+}

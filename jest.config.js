@@ -4,8 +4,8 @@ module.exports = {
     '~/(.*)$': '<rootDir>/src/$1'
   },
   transform: {
-    '^.+\\.js?$': 'babel-jest'
+    '^.+\\.ts?$': 'ts-jest'
   },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.js?$',
-  moduleFileExtensions: ['js', 'json', 'node']
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$',
+  moduleFileExtensions: ['ts', 'js', 'json', 'node']
 }
