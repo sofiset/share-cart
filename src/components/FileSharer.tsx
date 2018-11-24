@@ -1,25 +1,38 @@
 import * as React from "react"
-import Peer from "peerjs"
+import * as Peer from "peerjs"
 
-class FileSharer extends React.Component {
+type State = {
+  peer: Peer
+  my_id: string
+  peer_id: string
+  initialized: boolean
+  files: Array<any>
+  msg: string
+  connected: boolean
+  conn: Peer.DataConnection
+}
+
+const INITIAL_STATE = {
+  peer: new Peer({}),
+  my_id: "",
+  peer_id: "",
+  initialized: false,
+  files: [],
+  msg: "",
+  connected: false,
+  conn: null
+}
+
+class FileSharer extends React.Component<{}, State> {
   constructor(props) {
     super(props)
-    this.state = {
-      peer: new Peer(),
-      my_id: "",
-      peer_id: "",
-      initialized: false,
-      files: [],
-      msg: "hello",
-      connected: false
-    }
+    this.state = INITIAL_STATE
   }
 
   componentWillMount() {
     const { peer, conn } = this.state
 
     peer.on("open", id => {
-      console.log("My peer ID is: " + id)
       this.setState({
         my_id: id,
         initialized: true
@@ -28,28 +41,27 @@ class FileSharer extends React.Component {
 
     peer.on("connection", connection => {
       console.log("someone connected")
-      console.log(connection)
-
       this.setState(
         {
           conn: connection
         },
         () => {
-          this.state.conn.on("open", () => {
+          conn.on("open", () => {
             this.setState({
               connected: true
             })
           })
 
-          this.state.conn.on("data", this.onReceiveData)
+          conn.on("data", this.onReceiveData)
         }
       )
     })
   }
 
   onReceiveData(data) {
-    let arr = this.state.files.push(data)
-    this.setState({ files: arr })
+    this.setState(prevState => ({
+      files: [...prevState.files, data]
+    }))
   }
 
   renderNotConnected() {
@@ -57,7 +69,7 @@ class FileSharer extends React.Component {
       <div>
         <hr />
         <div>
-          <input type="text" onChange={this.handleTextChange} />
+          <input type="text" onChange={this.handlePeerIdChange} />
           <label>Peer ID</label>
         </div>
         <button onClick={this.connect}>Connect</button>
@@ -65,18 +77,15 @@ class FileSharer extends React.Component {
     )
   }
 
-  handleTextChange = event => {
+  handlePeerIdChange = event => {
     this.setState({
       peer_id: event.target.value
     })
   }
 
   connect = () => {
-    console.log("connect function")
-    var peer_id = this.state.peer_id
-    var connection = this.state.peer.connect(peer_id)
-
-    console.log("connection", connection)
+    const { peer_id, peer } = this.state
+    const connection = peer.connect(peer_id)
 
     this.setState(
       {
@@ -105,25 +114,19 @@ class FileSharer extends React.Component {
   }
 
   render() {
-    var result
+    const { initialized, my_id, connected } = this.state
 
-    if (this.state.initialized) {
-      result = (
+    return initialized ? (
+      <div>
         <div>
-          <div>
-            <span>Your PeerJS ID: </span>
-            <strong className="mui--divider-left">{this.state.my_id}</strong>
-          </div>
-          {this.state.connected
-            ? this.renderConnected()
-            : this.renderNotConnected()}
+          <span>Your PeerJS ID: </span>
+          <strong>{my_id}</strong>
         </div>
-      )
-    } else {
-      result = <div>Loading...</div>
-    }
-
-    return result
+        {connected ? this.renderConnected() : this.renderNotConnected()}
+      </div>
+    ) : (
+      <div>Loading...</div>
+    )
   }
 }
 
