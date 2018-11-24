@@ -6,7 +6,7 @@
       "~*": ["./src/*"]
     },
     "module": "commonjs",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": false,
     "jsx": "react",
     "lib": ["es2015", "es2017.sharedmemory", "dom"],
@@ -14,5 +14,7 @@
   },
   "parcelTsPluginOptions": {
     "transpileOnly": false
-  }
+  },
+  "allowSyntheticDefaultImports": true,
+  "esModuleInterop": true
 }

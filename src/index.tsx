@@ -1,14 +1,14 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import * as React from "react"
+import * as ReactDOM from "react-dom"
+import { BrowserRouter } from "react-router-dom"
 
-import { Main } from '~apps/webapp/routes'
+import { Main } from "~components"
 
 window.onload = () => {
   ReactDOM.render(
     <BrowserRouter>
       <Main />
     </BrowserRouter>,
-    document.getElementById('root')
+    document.getElementById("root")
   )
 }
